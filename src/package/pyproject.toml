@@ -1,0 +1,5 @@
+[project]
+name = "theorder"
+version = "0.1.0"
+description = "This package provides models for limit order books"
+authors = [{name = "Kęstutis Baltakys", email = "kbaltakys@gmail.com"}]
