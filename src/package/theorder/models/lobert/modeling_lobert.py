@@ -296,6 +296,18 @@ class LoBertModel(BertPreTrainedModel):
         else:
             raise ValueError("You have to specify either input_ids or inputs_embeds")
 
+        if time_ids is not None and time_embeds is not None:
+            raise ValueError("You cannot specify both time_ids and time_embeds at the same time")
+        elif time_ids is None and time_embeds is None:
+            raise ValueError("You have to specify either time_ids or time_embeds")
+
+
+        if volume_ids is not None and volume_embeds is not None:
+            raise ValueError("You cannot specify both volume_ids and volume_embeds at the same time")
+        elif volume_ids is None and volume_embeds is None:
+            raise ValueError("You have to specify either volume_ids or volume_embeds")
+
+
         batch_size, seq_length = input_shape
         device = input_ids.device if input_ids is not None else inputs_embeds.device
 
@@ -493,11 +505,15 @@ class LoBertForMaskedLM(BertPreTrainedModel):
     def forward(
         self,
         input_ids: Optional[torch.Tensor] = None,
+        time_ids: Optional[torch.Tensor] = None,
+        volume_ids: Optional[torch.Tensor] = None,
         attention_mask: Optional[torch.Tensor] = None,
         token_type_ids: Optional[torch.Tensor] = None,
         position_ids: Optional[torch.Tensor] = None,
         head_mask: Optional[torch.Tensor] = None,
         inputs_embeds: Optional[torch.Tensor] = None,
+        time_embeds: Optional[torch.Tensor] = None,
+        volume_embeds: Optional[torch.Tensor] = None,
         encoder_hidden_states: Optional[torch.Tensor] = None,
         encoder_attention_mask: Optional[torch.Tensor] = None,
         labels: Optional[torch.Tensor] = None,
@@ -516,11 +532,15 @@ class LoBertForMaskedLM(BertPreTrainedModel):
 
         outputs = self.bert(
             input_ids,
+            time_ids=time_ids,
+            volume_ids=volume_ids,
             attention_mask=attention_mask,
             token_type_ids=token_type_ids,
             position_ids=position_ids,
             head_mask=head_mask,
             inputs_embeds=inputs_embeds,
+            time_embeds=time_embeds,
+            volume_embeds=volume_embeds,
             encoder_hidden_states=encoder_hidden_states,
             encoder_attention_mask=encoder_attention_mask,
             output_attentions=output_attentions,

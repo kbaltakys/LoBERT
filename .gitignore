@@ -1,5 +1,7 @@
 /data
+/models
 *.pyc
 .github
 .devcontainer
 .DS_Store
+.vscode
