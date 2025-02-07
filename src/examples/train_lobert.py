@@ -27,15 +27,21 @@ config_lobert_tiny = {
 config = LoBertConfig(**config_lobert_tiny)
 
 lobert = LoBertForMaskedLM(config)
-tokenizer = LoBertTokenizer()
+tokenizer = LoBertTokenizer()# .from_pretrained("/workspaces/2025 LoBERT/src/tokenizer/lobert")
 
 data_collator = DataCollatorForMessageModeling(tokenizer=tokenizer, mlm=True)
 
 
 args = TrainingArguments(
     output_dir='/workspaces/2025 LoBERT/models',
-    num_train_epochs=1,
+    num_train_epochs=10,
     include_num_input_tokens_seen=True,
+    eval_strategy='steps',
+    logging_steps=20,
+    report_to=['tensorboard', 'wandb'],
+    warmup_ratio=0.1,
+    fp16=True,
+    fp16_full_eval=True,
     )
 
 
